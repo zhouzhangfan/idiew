@@ -1,5 +1,5 @@
 <template>
-  <div id="Editor"></div>
+  <div id="idiew-editor"></div>
 </template>
 
 <script>
@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     editorInt () {
-      this.editor = new Editor('#Editor')
+      this.editor = new Editor('#idiew-editor')
       this.editor.customConfig.onchange = (html) => {
         this.editorContent = html
       }
@@ -51,6 +51,8 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
-
+<style>
+  #idiew-editor{
+    min-width: 800px
+  }
 </style>
