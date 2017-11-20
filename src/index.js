@@ -1,7 +1,7 @@
-import Test from './components/test';
+import Editor from './components/editor';
 import AvatarUpload from './components/avatar-upload';
 
 export {
-  Test,
+  Editor,
   AvatarUpload
 };

@@ -6,11 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "wangeditor": "^3.0.8"
+  },
   "author": "zhouzhangfan <zhouzhangfan@outlook.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zhouzhangfan/idiew"
+    "url": "git+https://github.com/zhouzhangfan/idiew"
   },
   "keywords": [
     "iview",
