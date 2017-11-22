@@ -1,5 +1,5 @@
 <template>
-  <div id="idiew-editor"></div>
+  <div :id="id"></div>
 </template>
 
 <script>
@@ -11,6 +11,10 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    id: {
+      type: String,
+      default: 'idiew-editor'
     },
     height: {
       type: Number,
@@ -25,7 +29,7 @@ export default {
   },
   methods: {
     editorInt () {
-      this.editor = new Editor('#idiew-editor')
+      this.editor = new Editor('#' + this.id)
       this.editor.customConfig.onchange = (html) => {
         this.editorContent = html
       }
