@@ -115,6 +115,9 @@
     },
     watch: {
       value (val) {
+        if (this.images.length === 0) {
+          this.selectedImg = val[0]
+        }
         this.images = val
       },
       images (val) {
