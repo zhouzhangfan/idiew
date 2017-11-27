@@ -15,6 +15,8 @@
         @click="selectImg(img)"
         :style="{backgroundImage: `url(` + url + `${img})`}">
           <div v-if="img === selectedImg" class="close" @click="closeImg(index)"><Icon type="close-round"></Icon></div>
+          <div v-if="img === selectedImg && index !== 0" class="arrow left" @click="moveLeft(index)"><Icon type="chevron-left"></Icon></div>
+          <div v-if="img === selectedImg && index !== images.length - 1" class="arrow right" @click="moveRight(index)"><Icon type="chevron-right"></Icon></div>
       </div>
       <Upload
         ref="upload"
@@ -109,9 +111,26 @@
           content: '文件 ' + file.name + ' 太大，不能超过 ' + this.maxSize/1024 + 'M。'
         })
       },
+      moveLeft (i) {
+        let j = i - 1
+        let temp = this.images[i]
+        this.images[i] = this.images[j]
+        this.images[j] = temp
+        // this.$emit('input', this.images)
+        this.selectedImg = this.images[i]
+      },
+      moveRight (i) {
+        let j = i + 1
+        let temp = this.images[i]
+        this.images[i] = this.images[j]
+        this.images[j] = temp
+        // this.$emit('input', this.images)
+        this.selectedImg = this.images[i]
+      },
     },
     mounted () {
       this.images = this.value
+      this.selectedImg = this.images[0]
     },
     watch: {
       value (val) {
@@ -168,6 +187,28 @@
           background-color: #13b1b2;
           text-align: center;
           line-height: 15px;
+        }
+        .close:hover{
+          background-color: #67e6e6;
+        }
+        .arrow{
+          position: absolute;
+          width: 15px;
+          height: 20px;
+          color: #fff;
+          background-color: #13b1b2;
+          top: calc(50%-10px);
+          text-align: center;
+          line-height: 20px;
+        }
+        .arrow:hover{
+          background-color: #67e6e6;
+        }
+        .arrow.left{
+          left: 0;
+        }
+        .arrow.right{
+          right: 0;
         }
       }
       .pic:last-child{
