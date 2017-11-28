@@ -26,13 +26,17 @@ export default {
         return {}
       }
     },
+    picLen: {
+      type: Number,
+      default: 100,
+    },
     action: {
       type: String,
     },
-    url: {
-      type: String,
-    },
-    base64: {
+    // url: {
+    //   type: String,
+    // },
+    sevice: {
       type: Boolean,
       default: false
     }
@@ -44,29 +48,24 @@ export default {
     }
   },
   methods: {
-    editorInt (url) {
+    editorInt () {
       this.editor = new Editor('#' + this.id)
       this.editor.customConfig.onchange = (html) => {
+        // console.log('更新了一次')
         this.editorContent = html
       }
       this.editor.customConfig.zIndex = 60
 
-      if (this.base64) {
+      if (!this.sevice) {
         // base64
         this.editor.customConfig.uploadImgShowBase64 = true
       } else {
         // 上传图片到服务器
         this.editor.customConfig.uploadImgHeaders = this.header
         this.editor.customConfig.uploadImgServer = this.action
-        this.editor.customConfig.uploadImgMaxLength = 1
+        this.editor.customConfig.uploadImgMaxLength = this.picLen
         this.editor.customConfig.uploadImgMaxSize = 10 * 1024 * 1024
-        this.editor.customConfig.uploadFileName = 'file'
-        this.editor.customConfig.customAlert = function (info) {
-          this.$Modal.error({
-            title: '上传失败',
-            content: info
-          })
-        }
+        this.editor.customConfig.uploadFileName = 'files[]'
         this.editor.customConfig.uploadImgHooks = {
           before: function (xhr, editor, files) {
               // 图片上传之前触发
@@ -82,11 +81,15 @@ export default {
               // 图片上传并返回结果，图片插入成功之后触发
               // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
           },
-          fail: function (xhr, editor, result) {
-              // 图片上传并返回结果，但图片插入错误时触发
-              // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+          fail: (xhr, editor, result) => {
+            // 图片上传并返回结果，但图片插入错误时触发
+            // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+            this.$Modal.error({
+              title: '插入图片失败',
+              content: xhr.message
+            })
           },
-          error: function (xhr, editor) {
+          error: (xhr, editor) => {
             this.$Modal.error({
               title: '上传失败',
               content: xhr.message
@@ -99,29 +102,31 @@ export default {
 
           // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
           // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
-          customInsert: function (insertImg, result, editor) {
-            let imgurl = url + result.data.id
-            insertImg(imgurl)
+          customInsert: (insertImg, result, editor) => {
+            this.$emit('on-upload-success', insertImg, result)
           }
         }
       }
 
       this.editor.create()
       this.editor.txt.html(this.value)
-      var text = $('.w-e-text-container')
+      var text = $('#' + this.id + ' .w-e-text-container')
       text.css('height', this.height + 'px')
+      text.children('.w-e-text').blur(() => {
+        this.$emit('input', this.editorContent)
+      })
     },
   },
   mounted () {
-    this.editorInt(this.url)
+    this.editorInt()
   },
   watch: {
     value (val) {
       this.editor.txt.html(val)
     },
-    editorContent (val) {
-      this.$emit('input', val)
-    }
+    // editorContent (val) {
+    //   this.$emit('input', val)
+    // }
   }
 }
 </script>
