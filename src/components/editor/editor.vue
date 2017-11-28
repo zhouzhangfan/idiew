@@ -109,11 +109,14 @@ export default {
       }
 
       this.editor.create()
+      console.log('初始：' + this.value)
       this.editor.txt.html(this.value)
       var text = $('#' + this.id + ' .w-e-text-container')
       text.css('height', this.height + 'px')
+
+      // 失去焦点同步value
       text.children('.w-e-text').blur(() => {
-        this.$emit('input', this.editorContent)
+        this.$emit('on-blur', this.id, this.editorContent)
       })
     },
   },
@@ -122,6 +125,7 @@ export default {
   },
   watch: {
     value (val) {
+      console.log('变化：' + val)
       this.editor.txt.html(val)
     },
     // editorContent (val) {
