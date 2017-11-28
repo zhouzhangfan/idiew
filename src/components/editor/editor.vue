@@ -8,10 +8,6 @@ import $ from 'jquery'
 
 export default {
   props: {
-    value: {
-      type: String,
-      default: ''
-    },
     id: {
       type: String,
       default: 'idiew-editor'
@@ -43,17 +39,17 @@ export default {
   },
   data () {
     return {
-      editorContent: '',
+      // editorContent: '',
       editor: null,
     }
   },
   methods: {
     editorInt () {
       this.editor = new Editor('#' + this.id)
-      this.editor.customConfig.onchange = (html) => {
-        // console.log('更新了一次')
-        this.editorContent = html
-      }
+      // this.editor.customConfig.onchange = (html) => {
+      //   // console.log('更新了一次')
+      //   this.editorContent = html
+      // }
       this.editor.customConfig.zIndex = 60
 
       if (!this.sevice) {
@@ -109,25 +105,31 @@ export default {
       }
 
       this.editor.create()
-      console.log('初始：' + this.value)
-      this.editor.txt.html(this.value)
+      // console.log('初始：' + this.value)
+      // this.editor.txt.html(this.value)
       var text = $('#' + this.id + ' .w-e-text-container')
       text.css('height', this.height + 'px')
 
       // 失去焦点同步value
-      text.children('.w-e-text').blur(() => {
-        this.$emit('on-blur', this.id, this.editorContent)
-      })
+      // text.children('.w-e-text').blur(() => {
+      //   this.$emit('on-blur', this.id, this.editorContent)
+      // })
     },
+    setContent (val) {
+      this.editor.txt.html(val)
+    },
+    getContent () {
+      return this.editor.txt.html()
+    }
   },
   mounted () {
     this.editorInt()
   },
   watch: {
-    value (val) {
-      console.log('变化：' + val)
-      this.editor.txt.html(val)
-    },
+    // value (val) {
+    //   console.log('变化：' + val)
+    //   this.editor.txt.html(val)
+    // },
     // editorContent (val) {
     //   this.$emit('input', val)
     // }
