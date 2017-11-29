@@ -32,7 +32,7 @@ export default {
     // url: {
     //   type: String,
     // },
-    sevice: {
+    service: {
       type: Boolean,
       default: false
     }
@@ -52,7 +52,7 @@ export default {
       // }
       this.editor.customConfig.zIndex = 60
 
-      if (!this.sevice) {
+      if (!this.service) {
         // base64
         this.editor.customConfig.uploadImgShowBase64 = true
       } else {
