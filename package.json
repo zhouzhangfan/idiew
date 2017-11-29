@@ -1,6 +1,6 @@
 {
   "name": "idiew",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "A UI components libs based on iView",
   "main": "src/index.js",
   "scripts": {
